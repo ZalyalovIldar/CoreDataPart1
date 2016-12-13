@@ -15,6 +15,7 @@
 		7CC9C04E1DFEB8DC00FF81A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CC9C04C1DFEB8DC00FF81A0 /* Main.storyboard */; };
 		7CC9C0501DFEB8DC00FF81A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CC9C04F1DFEB8DC00FF81A0 /* Assets.xcassets */; };
 		7CC9C0531DFEB8DC00FF81A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CC9C0511DFEB8DC00FF81A0 /* LaunchScreen.storyboard */; };
+		7CC9C05C1DFEC08600FF81A0 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9C05B1DFEC08600FF81A0 /* CoreDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		7CC9C04F1DFEB8DC00FF81A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CC9C0521DFEB8DC00FF81A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7CC9C0541DFEB8DC00FF81A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CC9C05A1DFEC08600FF81A0 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
+		7CC9C05B1DFEC08600FF81A0 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,8 @@
 				7CC9C0411DFEB8DC00FF81A0 /* AppDelegate.m */,
 				7CC9C0461DFEB8DC00FF81A0 /* MasterViewController.h */,
 				7CC9C0471DFEB8DC00FF81A0 /* MasterViewController.m */,
+				7CC9C05A1DFEC08600FF81A0 /* CoreDataManager.h */,
+				7CC9C05B1DFEC08600FF81A0 /* CoreDataManager.m */,
 				7CC9C0491DFEB8DC00FF81A0 /* DetailViewController.h */,
 				7CC9C04A1DFEB8DC00FF81A0 /* DetailViewController.m */,
 				7CC9C04C1DFEB8DC00FF81A0 /* Main.storyboard */,
@@ -158,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CC9C05C1DFEC08600FF81A0 /* CoreDataManager.m in Sources */,
 				7CC9C04B1DFEB8DC00FF81A0 /* DetailViewController.m in Sources */,
 				7CC9C0481DFEB8DC00FF81A0 /* MasterViewController.m in Sources */,
 				7CC9C0421DFEB8DC00FF81A0 /* AppDelegate.m in Sources */,

@@ -41,10 +41,9 @@
 - (void)insertNewObject:(id)sender {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     Event *newEvent = [[Event alloc] initWithContext:context];
-        
     // If appropriate, configure the new managed object.
     newEvent.timestamp = [NSDate date];
-        
+    
     // Save the context.
     NSError *error = nil;
     if (![context save:&error]) {
