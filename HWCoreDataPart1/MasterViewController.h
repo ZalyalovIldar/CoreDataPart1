@@ -16,8 +16,9 @@
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
-@property (strong, nonatomic) NSFetchedResultsController<Event *> *fetchedResultsController;
+@property (strong, nonatomic) NSFetchedResultsController<User *> *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSArray *arr;
 
 
 @end
