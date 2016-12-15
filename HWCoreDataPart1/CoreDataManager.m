@@ -7,6 +7,8 @@
 //
 
 #import "CoreDataManager.h"
+#import "RandomInfo.h"
+#import "TableSettings.h"
 
 @implementation CoreDataManager
 
@@ -31,23 +33,11 @@
 @synthesize persistentContainer = _persistentContainer;
 
 - (NSPersistentContainer *)persistentContainer {
-    // The persistent container for the application. This implementation creates and returns a container, having loaded the store for the application to it.
     @synchronized (self) {
         if (_persistentContainer == nil) {
             _persistentContainer = [[NSPersistentContainer alloc] initWithName:@"HWCoreDataPart1"];
             [_persistentContainer loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription *storeDescription, NSError *error) {
                 if (error != nil) {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    
-                    /*
-                     Typical reasons for an error here include:
-                     * The parent directory does not exist, cannot be created, or disallows writing.
-                     * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                     * The device is out of space.
-                     * The store could not be migrated to the current model version.
-                     Check the error message to determine what the actual problem was.
-                     */
                     NSLog(@"Unresolved error %@, %@", error, error.userInfo);
                     abort();
                 }
@@ -64,8 +54,39 @@
     NSManagedObjectContext *context = self.persistentContainer.viewContext;
     NSError *error = nil;
     if ([context hasChanges] && ![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+        abort();
+    }
+}
+
+#pragma mark - delete all info from DB
+
+- (void)deleteAllInfoWithCount:(NSFetchedResultsController*)fetchResult{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"User"];
+    [fetchRequest setIncludesPropertyValues:NO];
+    NSManagedObjectContext *theContext = [fetchResult managedObjectContext];
+    NSError *error;
+    NSArray *fetchedObjects = [theContext executeFetchRequest:fetchRequest error:&error];
+    for (NSManagedObject *object in fetchedObjects)
+    {
+        [theContext deleteObject:object];
+    }
+    
+    error = nil;
+    [theContext save:&error];
+}
+
+#pragma mark - Add new random user
+
+- (void)createNewRandomUser:(NSManagedObjectContext*)context{
+    User *newUser = [[User alloc] initWithContext:context];
+    RandomInfo *info = [RandomInfo new];
+    newUser.name = [info getRandomName];
+    newUser.age = [info getRandomAge];
+    newUser.sex = [info getRandomSex];
+    newUser.dob = [info getRandomDOB];
+    NSError *error = nil;
+    if (![context save:&error]) {
         NSLog(@"Unresolved error %@, %@", error, error.userInfo);
         abort();
     }

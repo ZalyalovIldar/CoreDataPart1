@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "HWCoreDataPart1+CoreDataModel.h"
 
 @interface CoreDataManager : NSObject
 + (instancetype)sharedInstance;
@@ -16,5 +17,7 @@
 
 - (void)saveContext;
 - (NSManagedObjectContext *)getCurrentContext;
+- (void)deleteAllInfoWithCount:(NSFetchedResultsController*)fetchResult;
+- (void)createNewRandomUser:(NSManagedObjectContext*)context;
 
 @end

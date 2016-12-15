@@ -2,7 +2,7 @@
 //  DetailViewController.m
 //  HWCoreDataPart1
 //
-//  Created by Ildar Zalyalov on 12.12.16.
+//  Created by Ne Ildar Zalyalov, A Lenar Gilyazov on 12.12.16.
 //  Copyright © 2016 com.itis.iosLab. All rights reserved.
 //
 
@@ -15,33 +15,27 @@
 @implementation DetailViewController
 
 - (void)configureView {
-    // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = self.detailItem.timestamp.description;
+        self.detailDescriptionLabel.text = self.detailItem.name.description;
+        self.ageLabel.text = [NSString stringWithFormat:@"%hd",self.detailItem.age];
+        self.sexLabel.text = self.detailItem.sex.description;
+        self.dobLabel.text = self.detailItem.dob.description;
     }
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(Event *)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
+- (void)setDetailItem:(User *)newUserItem {
+    if (_detailItem != newUserItem) {
+        _detailItem = newUserItem;
         
-        // Update the view.
         [self configureView];
     }
 }
