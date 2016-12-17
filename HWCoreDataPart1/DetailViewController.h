@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HWCoreDataPart1+CoreDataModel.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UITableViewController
 
 @property (strong, nonatomic) Event *detailItem;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;

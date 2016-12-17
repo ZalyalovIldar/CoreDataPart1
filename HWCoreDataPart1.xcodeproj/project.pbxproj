@@ -16,6 +16,10 @@
 		7CC9C0501DFEB8DC00FF81A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CC9C04F1DFEB8DC00FF81A0 /* Assets.xcassets */; };
 		7CC9C0531DFEB8DC00FF81A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CC9C0511DFEB8DC00FF81A0 /* LaunchScreen.storyboard */; };
 		7CC9C05C1DFEC08600FF81A0 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9C05B1DFEC08600FF81A0 /* CoreDataManager.m */; };
+		E13564E31E03038E00EFBF5B /* CustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E13564E11E03038E00EFBF5B /* CustomCellTableViewCell.m */; };
+		E13564E41E03038E00EFBF5B /* CustomCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E13564E21E03038E00EFBF5B /* CustomCellTableViewCell.xib */; };
+		E13DB71D1E0585B500CE06C8 /* Random.m in Sources */ = {isa = PBXBuildFile; fileRef = E13DB71C1E0585B500CE06C8 /* Random.m */; };
+		E13DB7201E058CE800CE06C8 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = E13DB71F1E058CE800CE06C8 /* Settings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,13 @@
 		7CC9C0541DFEB8DC00FF81A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CC9C05A1DFEC08600FF81A0 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		7CC9C05B1DFEC08600FF81A0 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
+		E13564E01E03038E00EFBF5B /* CustomCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCellTableViewCell.h; sourceTree = "<group>"; };
+		E13564E11E03038E00EFBF5B /* CustomCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCellTableViewCell.m; sourceTree = "<group>"; };
+		E13564E21E03038E00EFBF5B /* CustomCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCellTableViewCell.xib; sourceTree = "<group>"; };
+		E13DB71B1E0585B500CE06C8 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		E13DB71C1E0585B500CE06C8 /* Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Random.m; sourceTree = "<group>"; };
+		E13DB71E1E058CE800CE06C8 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		E13DB71F1E058CE800CE06C8 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +91,13 @@
 				7CC9C0541DFEB8DC00FF81A0 /* Info.plist */,
 				7CC9C0431DFEB8DC00FF81A0 /* HWCoreDataPart1.xcdatamodeld */,
 				7CC9C03D1DFEB8DC00FF81A0 /* Supporting Files */,
+				E13564E01E03038E00EFBF5B /* CustomCellTableViewCell.h */,
+				E13564E11E03038E00EFBF5B /* CustomCellTableViewCell.m */,
+				E13564E21E03038E00EFBF5B /* CustomCellTableViewCell.xib */,
+				E13DB71B1E0585B500CE06C8 /* Random.h */,
+				E13DB71C1E0585B500CE06C8 /* Random.m */,
+				E13DB71E1E058CE800CE06C8 /* Settings.h */,
+				E13DB71F1E058CE800CE06C8 /* Settings.m */,
 			);
 			path = HWCoreDataPart1;
 			sourceTree = "<group>";
@@ -152,6 +170,7 @@
 			files = (
 				7CC9C0531DFEB8DC00FF81A0 /* LaunchScreen.storyboard in Resources */,
 				7CC9C0501DFEB8DC00FF81A0 /* Assets.xcassets in Resources */,
+				E13564E41E03038E00EFBF5B /* CustomCellTableViewCell.xib in Resources */,
 				7CC9C04E1DFEB8DC00FF81A0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,10 +184,13 @@
 			files = (
 				7CC9C05C1DFEC08600FF81A0 /* CoreDataManager.m in Sources */,
 				7CC9C04B1DFEB8DC00FF81A0 /* DetailViewController.m in Sources */,
+				E13DB7201E058CE800CE06C8 /* Settings.m in Sources */,
 				7CC9C0481DFEB8DC00FF81A0 /* MasterViewController.m in Sources */,
 				7CC9C0421DFEB8DC00FF81A0 /* AppDelegate.m in Sources */,
+				E13DB71D1E0585B500CE06C8 /* Random.m in Sources */,
 				7CC9C0451DFEB8DC00FF81A0 /* HWCoreDataPart1.xcdatamodeld in Sources */,
 				7CC9C03F1DFEB8DC00FF81A0 /* main.m in Sources */,
+				E13564E31E03038E00EFBF5B /* CustomCellTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +345,7 @@
 				7CC9C0591DFEB8DC00FF81A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
