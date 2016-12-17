@@ -77,27 +77,10 @@
 		7CC9C03C1DFEB8DC00FF81A0 /* HWCoreDataPart1 */ = {
 			isa = PBXGroup;
 			children = (
-				7CC9C0401DFEB8DC00FF81A0 /* AppDelegate.h */,
-				7CC9C0411DFEB8DC00FF81A0 /* AppDelegate.m */,
-				7CC9C0461DFEB8DC00FF81A0 /* MasterViewController.h */,
-				7CC9C0471DFEB8DC00FF81A0 /* MasterViewController.m */,
-				7CC9C05A1DFEC08600FF81A0 /* CoreDataManager.h */,
-				7CC9C05B1DFEC08600FF81A0 /* CoreDataManager.m */,
-				7CC9C0491DFEB8DC00FF81A0 /* DetailViewController.h */,
-				7CC9C04A1DFEB8DC00FF81A0 /* DetailViewController.m */,
-				7CC9C04C1DFEB8DC00FF81A0 /* Main.storyboard */,
-				7CC9C04F1DFEB8DC00FF81A0 /* Assets.xcassets */,
-				7CC9C0511DFEB8DC00FF81A0 /* LaunchScreen.storyboard */,
-				7CC9C0541DFEB8DC00FF81A0 /* Info.plist */,
-				7CC9C0431DFEB8DC00FF81A0 /* HWCoreDataPart1.xcdatamodeld */,
+				E13DB7231E05DE5F00CE06C8 /* Controller */,
+				E13DB7221E05DE4400CE06C8 /* View */,
+				E13DB7211E05DE2500CE06C8 /* Model */,
 				7CC9C03D1DFEB8DC00FF81A0 /* Supporting Files */,
-				E13564E01E03038E00EFBF5B /* CustomCellTableViewCell.h */,
-				E13564E11E03038E00EFBF5B /* CustomCellTableViewCell.m */,
-				E13564E21E03038E00EFBF5B /* CustomCellTableViewCell.xib */,
-				E13DB71B1E0585B500CE06C8 /* Random.h */,
-				E13DB71C1E0585B500CE06C8 /* Random.m */,
-				E13DB71E1E058CE800CE06C8 /* Settings.h */,
-				E13DB71F1E058CE800CE06C8 /* Settings.m */,
 			);
 			path = HWCoreDataPart1;
 			sourceTree = "<group>";
@@ -105,9 +88,50 @@
 		7CC9C03D1DFEB8DC00FF81A0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7CC9C0431DFEB8DC00FF81A0 /* HWCoreDataPart1.xcdatamodeld */,
+				7CC9C0401DFEB8DC00FF81A0 /* AppDelegate.h */,
+				7CC9C0411DFEB8DC00FF81A0 /* AppDelegate.m */,
+				7CC9C04F1DFEB8DC00FF81A0 /* Assets.xcassets */,
+				7CC9C0541DFEB8DC00FF81A0 /* Info.plist */,
 				7CC9C03E1DFEB8DC00FF81A0 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E13DB7211E05DE2500CE06C8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E13DB71B1E0585B500CE06C8 /* Random.h */,
+				E13DB71C1E0585B500CE06C8 /* Random.m */,
+				E13DB71E1E058CE800CE06C8 /* Settings.h */,
+				E13DB71F1E058CE800CE06C8 /* Settings.m */,
+				7CC9C05A1DFEC08600FF81A0 /* CoreDataManager.h */,
+				7CC9C05B1DFEC08600FF81A0 /* CoreDataManager.m */,
+				E13564E01E03038E00EFBF5B /* CustomCellTableViewCell.h */,
+				E13564E11E03038E00EFBF5B /* CustomCellTableViewCell.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		E13DB7221E05DE4400CE06C8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7CC9C04C1DFEB8DC00FF81A0 /* Main.storyboard */,
+				7CC9C0511DFEB8DC00FF81A0 /* LaunchScreen.storyboard */,
+				E13564E21E03038E00EFBF5B /* CustomCellTableViewCell.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		E13DB7231E05DE5F00CE06C8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7CC9C0461DFEB8DC00FF81A0 /* MasterViewController.h */,
+				7CC9C0471DFEB8DC00FF81A0 /* MasterViewController.m */,
+				7CC9C0491DFEB8DC00FF81A0 /* DetailViewController.h */,
+				7CC9C04A1DFEB8DC00FF81A0 /* DetailViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
