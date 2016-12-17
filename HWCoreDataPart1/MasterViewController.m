@@ -8,8 +8,15 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "CoreDataManager.h"
+#import "CustomCellTableViewCell.h"
+#import "Settings.h"
 
 @interface MasterViewController ()
+@property (nonatomic, strong) NSArray *nameArray;
+@property (nonatomic, strong) NSArray *birthArray;
+@property (nonatomic, strong) Settings *settings;
+
 
 @end
 
@@ -22,13 +29,46 @@
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
+    UIBarButtonItem *clearButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAll:)];
+    
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(showSettings)];
+    
+    self.tableView.estimatedRowHeight = 200;
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"CustomCellTableViewCell" bundle:nil] forCellReuseIdentifier:@"cell"];
+    self.navigationItem.leftBarButtonItems = @[clearButton, settingsButton];
+    
+    
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+ 
+
+    
+
+    
+}
+
+- (void)insertNewObject:(id)sender {
+    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+    [[CoreDataManager sharedInstance] createRandomUser:context];
 }
 
 
+- (void)deleteAll:(id)sender {
+    [[CoreDataManager sharedInstance] deleteAllDataFromDB:self.fetchedResultsController];
+    [self.tableView reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
-    self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
     [super viewWillAppear:animated];
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"settings"];
+    Settings *settings = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    self.settings =settings ? settings : [[Settings alloc] init];
+    self.fetchedResultsController = [self fetchedResultsController];
+    [self.tableView reloadData];
+    self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
+    
 }
 
 
@@ -38,21 +78,7 @@
 }
 
 
-- (void)insertNewObject:(id)sender {
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    Event *newEvent = [[Event alloc] initWithContext:context];
-    // If appropriate, configure the new managed object.
-    newEvent.timestamp = [NSDate date];
-    
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-        abort();
-    }
-}
+
 
 
 #pragma mark - Segues
@@ -68,8 +94,16 @@
     }
 }
 
+- (void)showSettings{
+    [self performSegueWithIdentifier:@"showDetail" sender:self];
+}
 
 #pragma mark - Table View
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 150;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections] count];
@@ -83,8 +117,14 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    CustomCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     Event *event = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.nameLabel.text = event.name;
+    cell.ageLabel.text = [NSString stringWithFormat:@"%hd", event.age];
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@"dd.MM.YYYY"];
+    cell.birthDate.text = [formater stringFromDate:event.birthDate];
+    cell.sexLabel.text = event.sex;
     [self configureCell:cell withEvent:event];
     return cell;
 }
@@ -103,9 +143,7 @@
             
         NSError *error = nil;
         if (![context save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+                        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
             abort();
         }
     }
@@ -113,7 +151,7 @@
 
 
 - (void)configureCell:(UITableViewCell *)cell withEvent:(Event *)event {
-    cell.textLabel.text = event.timestamp.description;
+  
 }
 
 
@@ -121,30 +159,43 @@
 
 - (NSFetchedResultsController<Event *> *)fetchedResultsController
 {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
+    
     
     NSFetchRequest<Event *> *fetchRequest = Event.fetchRequest;
-    
-    // Set the batch size to a suitable number.
+   
     [fetchRequest setFetchBatchSize:20];
     
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
-
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    NSMutableArray *sortDescriptors = [NSMutableArray new];
+    if (self.settings.nameSwitchStatus)
+    {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+        
+    }
     
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
+    if ( self.settings.ageSwitchStatus) {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"age" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+    }
+    
+    if (self.settings.birthDateSwitchStatus) {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"birthDate" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+    }
+    
+    if (self.settings.sexSwitchStatus) {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sex" ascending:YES];
+        [sortDescriptors addObject:sortDescriptor];
+    }
+    
+    [fetchRequest setSortDescriptors:sortDescriptors.copy];
+    
     NSFetchedResultsController<Event *> *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     
     NSError *error = nil;
     if (![aFetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+                NSLog(@"Unresolved error %@, %@", error, error.userInfo);
         abort();
     }
     
