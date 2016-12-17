@@ -11,8 +11,16 @@
 
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) Event *detailItem;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (strong, nonatomic) User *detailItem;
+@property (weak, nonatomic) IBOutlet UILabel *detailNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailAgeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailDOBLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailSexLabel;
+
+@property (nonatomic, copy) NSString *userName;
+@property (nonatomic, copy) NSString *userSex;
+@property int userAge;
+@property (nonatomic, copy) NSDate *userDateOfBurnDate;
 
 @end
 
