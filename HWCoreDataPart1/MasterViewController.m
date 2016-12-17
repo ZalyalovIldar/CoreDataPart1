@@ -8,6 +8,9 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "CoreDataManager.h"
+#import "TableSettings.h"
+
 
 @interface MasterViewController ()
 
@@ -17,8 +20,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *clearButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clearAll:)];
+    self.navigationItem.leftBarButtonItem = clearButton;
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -31,24 +34,36 @@
     [super viewWillAppear:animated];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    self.fetchedResultsController = [self fetchedResultsController];
+    [self.tableView reloadData];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)clearAll:(id)sender{
+    [[CoreDataManager sharedInstance] delet:_fetchedResultsController];
+    [self.tableView reloadData];
+}
 
 - (void)insertNewObject:(id)sender {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    Event *newEvent = [[Event alloc] initWithContext:context];
-    // If appropriate, configure the new managed object.
-    newEvent.timestamp = [NSDate date];
+    User *newUser = [[User alloc] initWithContext:context];
     
-    // Save the context.
+    UserGenerator *ug = [UserGenerator new];
+    newUser.userName = [ug getRandomName];
+    newUser.userAge = [ug age];
+    newUser.userSex = [ug sex];
+    newUser.userDateOfBurn = [ug getRandomDateOfBurn];
+    
+    
     NSError *error = nil;
     if (![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+
         NSLog(@"Unresolved error %@, %@", error, error.userInfo);
         abort();
     }
@@ -60,7 +75,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Event *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        User *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
@@ -84,14 +100,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    Event *event = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [self configureCell:cell withEvent:event];
+    User *user = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    [self configureCell:cell withUser:user];
     return cell;
 }
 
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
+    
     return YES;
 }
 
@@ -103,8 +119,6 @@
             
         NSError *error = nil;
         if (![context save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog(@"Unresolved error %@, %@", error, error.userInfo);
             abort();
         }
@@ -112,38 +126,37 @@
 }
 
 
-- (void)configureCell:(UITableViewCell *)cell withEvent:(Event *)event {
-    cell.textLabel.text = event.timestamp.description;
+- (void)configureCell:(UITableViewCell *)cell withUser:(User *)user {
+    cell.textLabel.text = user.userName.description;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", user.userAge];
 }
 
 
 #pragma mark - Fetched results controller
 
-- (NSFetchedResultsController<Event *> *)fetchedResultsController
+- (NSFetchedResultsController<User *> *)fetchedResultsController
 {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
-    NSFetchRequest<Event *> *fetchRequest = Event.fetchRequest;
+    NSFetchRequest<User *> *fetchRequest = User.fetchRequest;
     
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
-
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
+    TableSettings *tableSettings = (TableSettings *)[[TableSettings sharedInstance] unarchiveData];
+    NSArray *settingsArray = tableSettings.settingsArray;
+    NSMutableArray *arrayForDecriptor = [NSMutableArray new];
+    for (NSString *result in settingsArray) {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:result ascending:NO];
+        [arrayForDecriptor addObject:sortDescriptor];
+    }
+    [fetchRequest setSortDescriptors:arrayForDecriptor];
     
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController<Event *> *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController<User *> *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     
     NSError *error = nil;
     if (![aFetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        
         NSLog(@"Unresolved error %@, %@", error, error.userInfo);
         abort();
     }
@@ -190,7 +203,7 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] withEvent:anObject];
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] withUser:anObject];
             break;
             
         case NSFetchedResultsChangeMove:
@@ -204,9 +217,7 @@
     [self.tableView endUpdates];
 }
 
-/*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
+/* 
  - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     // In the simplest, most efficient, case, reload the table view.

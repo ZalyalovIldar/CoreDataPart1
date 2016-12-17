@@ -16,5 +16,7 @@
 
 - (void)saveContext;
 - (NSManagedObjectContext *)getCurrentContext;
+- (void)delet:(NSFetchedResultsController*)fetchResult;
+
 
 @end

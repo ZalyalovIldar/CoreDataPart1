@@ -57,7 +57,22 @@
     
     return _persistentContainer;
 }
+#pragma mark - Delet info from data
 
+-(void)delet:(NSFetchedResultsController*)fetchResult{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"User"];
+    [fetchRequest setIncludesPropertyValues:NO];
+    NSManagedObjectContext *context = [fetchResult managedObjectContext];
+    NSError *error;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+    for (NSManagedObject *object in fetchedObjects)
+    {
+        [context deleteObject:object];
+    }
+    
+    error = nil;
+    [context save:&error];
+}
 #pragma mark - Core Data Saving support
 
 - (void)saveContext {
